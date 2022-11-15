@@ -10,7 +10,7 @@ import { useMemo, use, FC, useId, useRef, useState } from "react";
 import "prismjs/themes/prism.css";
 import { NextFont } from "@next/font/dist/types";
 import localFont from "@next/font/local";
-import html2canvas from "html2canvas";
+import * as htmlToImage from "html-to-image";
 
 const firaCodeBold = localFont({ src: "../fonts/Fira_Code_v6.2/woff2/FiraCode-Bold.woff2" });
 const firaCodeLight = localFont({ src: "../fonts/Fira_Code_v6.2/woff2/FiraCode-Light.woff2" });
@@ -68,8 +68,7 @@ export const Code: FC<{ fontKey?: string, tabTitle?: string, language?: string, 
 
     const span = async () => {
         if (codeBlockRef.current) {
-            const canvas = await html2canvas(codeBlockRef.current);
-            const blob = await new Promise<Blob>(resolve => canvas.toBlob(resolve, "png"));
+            const blob = await htmlToImage.toBlob(codeBlockRef.current);
             await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
             console.log("ok");
             const t = Date.now();
@@ -81,12 +80,12 @@ export const Code: FC<{ fontKey?: string, tabTitle?: string, language?: string, 
     }
 
     return <>
-        {/* <div className="p-4 flex items-center gap-2">
+        <div className="p-4 flex items-center gap-2">
             <button onClick={span} className="px-4 py-2 border rounded">📸 Guardar</button>
             {clicks.map(e => <span key={e}>✅</span>)}
-        </div> */}
+        </div>
         <div className="p-4">
-        <div x-snap-me="true" className="p-[8px] overflow-hidden inline-block bg-white">
+            <div ref={codeBlockRef} x-snap-me="true" className="p-[8px] overflow-hidden inline-block bg-transparent">
                 <div className="bg-white border shadow-md border-solid border-gray-200 rounded-lg text-[27px] inline-block">
                     <div className="bg-[#F0F0F0] rounded-t-lg">
                         <span aria-hidden className="flex justify-start items-center">
