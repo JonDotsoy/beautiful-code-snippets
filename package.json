@@ -1,0 +1,27 @@
+{
+  "name": "beautiful-code-snippets",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "next "
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@next/font": "^13.0.3",
+    "next": "^13.0.3",
+    "prismjs": "^1.29.0",
+    "typescript": "^4.8.4"
+  },
+  "devDependencies": {
+    "@types/node": "18.11.9",
+    "@types/prismjs": "^1.26.0",
+    "@types/react": "18.0.25",
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.19",
+    "tailwindcss": "^3.2.4"
+  }
+}
