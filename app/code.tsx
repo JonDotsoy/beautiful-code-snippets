@@ -6,10 +6,11 @@ import "prismjs/components/prism-http";
 import "prismjs/components/prism-json";
 import "prismjs/components/prism-json5";
 import "prismjs/components/prism-git";
-import { useMemo, use, FC } from "react";
+import { useMemo, use, FC, useId, useRef, useState } from "react";
 import "prismjs/themes/prism.css";
 import { NextFont } from "@next/font/dist/types";
 import localFont from "@next/font/local";
+import html2canvas from "html2canvas";
 
 const firaCodeBold = localFont({ src: "../fonts/Fira_Code_v6.2/woff2/FiraCode-Bold.woff2" });
 const firaCodeLight = localFont({ src: "../fonts/Fira_Code_v6.2/woff2/FiraCode-Light.woff2" });
@@ -60,12 +61,32 @@ const selectFont = (fontKey: string): NextFont => fontDict[fontKey] ?? firaCodeM
 const selectLanguage = (languageKey: string): Prism.Grammar => languageDict[languageKey] ?? Prism.languages.typescript
 
 export const Code: FC<{ fontKey?: string, tabTitle?: string, language?: string, code?: string }> = ({ tabTitle, code = `const a:string = "1234"`, fontKey = FontKeys.FiraCodeMedium, language = Language.typescript }) => {
+    const codeBlockRef = useRef<HTMLDivElement>();
     const font = selectFont(fontKey);
+    const [clicks, setClicks] = useState<number[]>([]);
     const htmlOutput = useMemo(() => Prism.highlight(code, selectLanguage(language), language), [code, language]);
 
+    const span = async () => {
+        if (codeBlockRef.current) {
+            const canvas = await html2canvas(codeBlockRef.current);
+            const blob = await new Promise<Blob>(resolve => canvas.toBlob(resolve, "png"));
+            await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
+            console.log("ok");
+            const t = Date.now();
+            setClicks(e => [...e, t]);
+            setTimeout(() => {
+                setClicks(e => e.filter(e => e !== t));
+            }, 250);
+        }
+    }
+
     return <>
+        <div className="p-4 flex items-center gap-2">
+            <button onClick={span} className="px-4 py-2 border rounded">📸 Guardar</button>
+            {clicks.map(e => <span key={e}>✅</span>)}
+        </div>
         <div className="p-4">
-            <div className="bg-white border border-solid border-gray-200 rounded-lg text-[27px] inline-block">
+            <div ref={codeBlockRef} className="bg-white border border-solid border-gray-200 rounded-lg text-[27px] inline-block">
                 <div className="bg-[#F0F0F0] rounded-t-lg">
                     <span aria-hidden className="flex justify-start items-center">
                         <span className="flex gap-2 px-4 min-h-[50px] items-center">
