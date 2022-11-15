@@ -1,6 +1,11 @@
 import Prism from "prismjs"
 import "prismjs/components/prism-typescript";
 import "prismjs/components/prism-rust";
+import "prismjs/components/prism-http";
+import "prismjs/components/prism-http";
+import "prismjs/components/prism-json";
+import "prismjs/components/prism-json5";
+import "prismjs/components/prism-git";
 import { useMemo, use, FC } from "react";
 import "prismjs/themes/prism.css";
 import { NextFont } from "@next/font/dist/types";
@@ -23,9 +28,13 @@ const fontDict: Record<FontKeys, NextFont> = {
 };
 
 const languageDict: Record<Language, Prism.Grammar> = {
-    "Javascript": Prism.languages.javascript,
-    "Typescript": Prism.languages.typescript,
-    "Rust": Prism.languages.rust,
+    "javascript": Prism.languages.javascript,
+    "typescript": Prism.languages.typescript,
+    "rust": Prism.languages.rust,
+    "http": Prism.languages.http,
+    "json": Prism.languages.json,
+    "json5": Prism.languages.json5,
+    "git": Prism.languages.git,
 }
 
 export enum FontKeys {
@@ -38,15 +47,19 @@ export enum FontKeys {
 }
 
 export enum Language {
-    Javascript = "Javascript",
-    Typescript = "Typescript",
-    Rust = "Rust",
+    javascript = "javascript",
+    typescript = "typescript",
+    rust = "rust",
+    http = "http",
+    json = "json",
+    json5 = "json5",
+    git = "git",
 }
 
 const selectFont = (fontKey: string): NextFont => fontDict[fontKey] ?? firaCodeMedium
 const selectLanguage = (languageKey: string): Prism.Grammar => languageDict[languageKey] ?? Prism.languages.typescript
 
-export const Code: FC<{ fontKey?: string, tabTitle?: string, language?: string, code?: string }> = ({ tabTitle, code = `const a:string = "1234"`, fontKey = FontKeys.FiraCodeMedium, language = Language.Typescript }) => {
+export const Code: FC<{ fontKey?: string, tabTitle?: string, language?: string, code?: string }> = ({ tabTitle, code = `const a:string = "1234"`, fontKey = FontKeys.FiraCodeMedium, language = Language.typescript }) => {
     const font = selectFont(fontKey);
     const htmlOutput = useMemo(() => Prism.highlight(code, selectLanguage(language), language), [code, language]);
 

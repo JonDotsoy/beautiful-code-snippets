@@ -4,9 +4,9 @@ import { Code, FontKeys, Language } from "./code";
 
 export default function () {
     const [fontKey, setFontKey] = useState(FontKeys.FiraCodeLight);
-    const [language, setLanguage] = useState(Language.Typescript);
-    const [tabTitle, setTabTitle] = useState("");
-    const [code, setCode] = useState<string | undefined>("");
+    const [language, setLanguage] = useState(Language.typescript);
+    const [tabTitle, setTabTitle] = useState("app.ts");
+    const [code, setCode] = useState<string | undefined>("export const PORT = 3000;\nrequire(\"express\")().lister(PORT);");
     const id1 = useId()
     const id2 = useId()
     const id3 = useId()
@@ -19,13 +19,13 @@ export default function () {
                 {Object.values(FontKeys).map(e => <option key={e}>{e}</option>)}
             </select> */}
             <label htmlFor={id2}>Tab Title</label>
-            <input id={id2} type="text" onChange={t => setTabTitle(t.currentTarget.value)} className="border" />
+            <input id={id2} type="text" onChange={t => setTabTitle(t.currentTarget.value)} defaultValue={tabTitle} className="border" />
             <label htmlFor={id3}>Language</label>
             <select id={id3} onChange={t => setLanguage(t.currentTarget.value as any)} defaultValue={language}>
                 {Object.values(Language).map(e => <option key={e}>{e}</option>)}
             </select>
             <label htmlFor={id4}>Code</label>
-            <textarea id={id4} onChange={t => setCode(t.currentTarget.value)} />
+            <textarea id={id4} onChange={t => setCode(t.currentTarget.value)} defaultValue={code} />
         </form>
         <hr />
         <Code fontKey={fontKey} tabTitle={tabTitle} language={language} code={code}></Code>
