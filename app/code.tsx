@@ -81,30 +81,53 @@ export const Code: FC<{ fontKey?: string, tabTitle?: string, language?: string, 
     }
 
     return <>
-        <div className="p-4 flex items-center gap-2">
+        {/* <div className="p-4 flex items-center gap-2">
             <button onClick={span} className="px-4 py-2 border rounded">📸 Guardar</button>
             {clicks.map(e => <span key={e}>✅</span>)}
-        </div>
+        </div> */}
         <div className="p-4">
-            <div ref={codeBlockRef} className="bg-white border border-solid border-gray-200 rounded-lg text-[27px] inline-block">
-                <div className="bg-[#F0F0F0] rounded-t-lg">
-                    <span aria-hidden className="flex justify-start items-center">
-                        <span className="flex gap-2 px-4 min-h-[50px] items-center">
-                            <span className="block w-[27px] h-[27px] rounded-full border-[4px] border-[#B5B5B5]"></span>
-                            <span className="block w-[27px] h-[27px] rounded-full border-[4px] border-[#B5B5B5]"></span>
-                            <span className="block w-[27px] h-[27px] rounded-full border-[4px] border-[#B5B5B5]"></span>
+        <div x-snap-me="true" className="p-[8px] overflow-hidden inline-block bg-white">
+                <div className="bg-white border shadow-md border-solid border-gray-200 rounded-lg text-[27px] inline-block">
+                    <div className="bg-[#F0F0F0] rounded-t-lg">
+                        <span aria-hidden className="flex justify-start items-center">
+                            <span className="flex gap-2 px-4 min-h-[50px] items-center">
+                                <span className="block w-[20px] h-[20px] rounded-full border-[2px] border-[#B5B5B5]"></span>
+                                <span className="block w-[20px] h-[20px] rounded-full border-[2px] border-[#B5B5B5]"></span>
+                                <span className="block w-[20px] h-[20px] rounded-full border-[2px] border-[#B5B5B5]"></span>
+                            </span>
+                            {tabTitle &&
+                                <span className="bg-white text-gray-500 px-10 min-h-[50px] flex items-center"><span>{tabTitle}</span></span>
+                            }
                         </span>
-                        {tabTitle &&
-                            <span className="bg-white text-gray-500 px-10 min-h-[50px] flex items-center"><span>{tabTitle}</span></span>
-                        }
-                    </span>
-                </div>
-                <div className="p-5">
-                    <code>
-                        <pre className={`${font.className} whitespace-pre`} dangerouslySetInnerHTML={{ __html: htmlOutput }}></pre>
-                    </code>
+                    </div>
+                    <div className="p-5">
+                        <code>
+                            <pre className={`${font.className} whitespace-pre`} dangerouslySetInnerHTML={{ __html: htmlOutput }}></pre>
+                        </code>
+                    </div>
                 </div>
             </div>
+            {/* <div x-snap-me="true" className="p-[8px] overflow-hidden inline-block bg-black">
+                <div className="bg-white border shadow-white shadow-md border-solid border-gray-800 rounded-lg text-[27px] inline-block">
+                    <div className="bg-[#242424] rounded-t-lg">
+                        <span aria-hidden className="flex justify-start items-center">
+                            <span className="flex gap-2 px-4 min-h-[50px] items-center">
+                                <span className="block w-[20px] h-[20px] rounded-full border-[2px] border-[#774343]"></span>
+                                <span className="block w-[20px] h-[20px] rounded-full border-[2px] border-[#B5B5B5]"></span>
+                                <span className="block w-[20px] h-[20px] rounded-full border-[2px] border-[#B5B5B5]"></span>
+                            </span>
+                            {tabTitle &&
+                                <span className="bg-white text-gray-500 px-10 min-h-[50px] flex items-center"><span>{tabTitle}</span></span>
+                            }
+                        </span>
+                    </div>
+                    <div className="p-5">
+                        <code>
+                            <pre className={`${font.className} whitespace-pre`} dangerouslySetInnerHTML={{ __html: htmlOutput }}></pre>
+                        </code>
+                    </div>
+                </div>
+            </div> */}
         </div>
     </>
 }
