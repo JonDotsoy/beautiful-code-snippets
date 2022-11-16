@@ -1,6 +1,8 @@
 'use client';
 import { useId, useState } from "react";
 import { Code, FontKeys, Language } from "./code";
+import GithubSVG from "../assets/logos/github-2.svg";
+import Image from "next/image";
 
 const shadowStyles = [
     'rgb(38, 57, 77) 0px 20px 30px -10px',
@@ -56,5 +58,9 @@ export default function () {
         </form>
         <hr />
         <Code fontKey={fontKey} tabTitle={tabTitle} language={language} code={code} onChangeCode={code => setCode(code)} useAccent={useAccent} shadownStyle={shadownStyle}></Code>
+
+        <footer>
+            <p>View project on <a href="https://github.com/JonDotsoy/beautiful-code-snippets"><strong>GitHub</strong></a></p>
+        </footer>
     </>
 }
