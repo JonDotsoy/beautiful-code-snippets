@@ -40,6 +40,6 @@ export default function () {
             <textarea id={id4} onChange={t => setCode(t.currentTarget.value)} defaultValue={code} />
         </form>
         <hr />
-        <Code fontKey={fontKey} tabTitle={tabTitle} language={language} code={code}></Code>
+        <Code fontKey={fontKey} tabTitle={tabTitle} language={language} code={code} onChangeCode={code => setCode(code)}></Code>
     </>
 }

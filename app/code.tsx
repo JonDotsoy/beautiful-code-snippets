@@ -8,11 +8,32 @@ import "prismjs/components/prism-json5";
 import "prismjs/components/prism-git";
 import { useMemo, use, FC, useId, useRef, useState } from "react";
 import "prismjs/themes/prism.css";
+import "prismjs/plugins/line-numbers/prism-line-numbers";
+import "prismjs/plugins/line-numbers/prism-line-numbers.css";
 import { NextFont } from "@next/font/dist/types";
 import localFont from "@next/font/local";
 import * as htmlToImage from "html-to-image";
 import Image from "next/image";
 import demo from "../assets/demo-2.png";
+
+
+import ApolloGraphqlCompactSVG from "../assets/logos/apollo-graphql-compact.svg";
+import CssSVG from "../assets/logos/css.svg";
+import GraphqlSVG from "../assets/logos/graphql.svg";
+import HtmlSVG from "../assets/logos/html.svg";
+import JavaSVG from "../assets/logos/java.svg";
+import JavascriptSVG from "../assets/logos/javascript.svg";
+import MongodbSVG from "../assets/logos/mongodb.svg";
+import PhpSVG from "../assets/logos/php.svg";
+import PrismaSVG from "../assets/logos/prisma.svg";
+import PythonSVG from "../assets/logos/python.svg";
+import ReactSVG from "../assets/logos/react.svg";
+import RubySVG from "../assets/logos/ruby.svg";
+import RustSVG from "../assets/logos/rust.svg";
+import SvgSVG from "../assets/logos/svg.svg";
+import SwiftSVG from "../assets/logos/swift.svg";
+import TailwindcssSVG from "../assets/logos/tailwindcss.svg";
+import TypescriptSVG from "../assets/logos/typescript.svg";
 
 
 const firaCodeBold = localFont({ src: "../fonts/Fira_Code_v6.2/woff2/FiraCode-Bold.woff2" });
@@ -60,14 +81,40 @@ export enum Language {
     git = "git",
 }
 
+export const iconExtends: Record<string, any> = {
+    ApolloGraphqlCompactSVG: ApolloGraphqlCompactSVG,
+    '.css': CssSVG,
+    '.graphql': GraphqlSVG,
+    '.graphqls': GraphqlSVG,
+    '.gql': GraphqlSVG,
+    '.html': HtmlSVG,
+    '.java': JavaSVG,
+    '.js': JavascriptSVG,
+    '.mongodb': MongodbSVG,
+    '.php': PhpSVG,
+    '.prisma': PrismaSVG,
+    '.py': PythonSVG,
+    '.jsx': ReactSVG,
+    '.tsx': ReactSVG,
+    '.rb': RubySVG,
+    '.rs': RustSVG,
+    '.svg': SvgSVG,
+    '.swift': SwiftSVG,
+    'tailwind.config.js': TailwindcssSVG,
+    '.ts': TypescriptSVG,
+}
+
+const selectExtend = (pat: string): any => Object.entries(iconExtends).find(([match]) => pat.endsWith(match))?.[1];
+
 const selectFont = (fontKey: string): NextFont => fontDict[fontKey] ?? firaCodeMedium
 const selectLanguage = (languageKey: string): Prism.Grammar => languageDict[languageKey] ?? Prism.languages.typescript
 
-export const Code: FC<{ fontKey?: string, tabTitle?: string, language?: string, code?: string }> = ({ tabTitle, code = `const a:string = "1234"`, fontKey = FontKeys.FiraCodeMedium, language = Language.typescript }) => {
+export const Code: FC<{ fontKey?: string, tabTitle?: string, language?: string, code?: string, onChangeCode?: (code: string) => void }> = ({ tabTitle, code = `const a:string = "1234"`, fontKey = FontKeys.FiraCodeMedium, language = Language.typescript, onChangeCode }) => {
     const codeBlockRef = useRef<HTMLDivElement>();
     const font = selectFont(fontKey);
     const [clicks, setClicks] = useState<number[]>([]);
     const htmlOutput = useMemo(() => Prism.highlight(code, selectLanguage(language), language), [code, language]);
+    const imageExt = useMemo(() => selectExtend(tabTitle), [tabTitle]);
 
     const span = async () => {
         if (codeBlockRef.current) {
@@ -88,8 +135,10 @@ export const Code: FC<{ fontKey?: string, tabTitle?: string, language?: string, 
             {clicks.map(e => <span key={e}>✅</span>)}
         </div>
         <div className="p-4">
-            <div ref={codeBlockRef} x-snap-me="true" className="p-[8px] overflow-hidden inline-block bg-transparent">
-                <div className="bg-white border shadow-md border-solid border-gray-200 rounded-lg text-[14px] inline-block overflow-hidden">
+            <div ref={codeBlockRef} className="p-[35px] overflow-hidden inline-block bg-transparent">
+                <div className="bg-white border border-solid border-gray-200 rounded-lg text-[14px] inline-block overflow-hidden" style={{
+                    boxShadow: 'rgb(38, 57, 77) 0px 20px 30px -10px'
+                }}>
                     <div className="bg-[#f2f2f2] px-[16px] h-[45px] flex gap-[16px]">
                         <span className="flex gap-2 items-center">
                             <span className="block w-[13px] h-[13px] rounded-full border-[2px] border-[#B5B5B5]"></span>
@@ -103,15 +152,20 @@ export const Code: FC<{ fontKey?: string, tabTitle?: string, language?: string, 
                                     <span className="absolute bottom-0 -left-[12px] h-[12px] w-[12px] bg-[#f2f2f2] rounded-br-lg shadown shadow-black"></span>
                                     <span className="absolute bottom-0 -right-[12px] h-[12px] w-[12px] bg-white"></span>
                                     <span className="absolute bottom-0 -right-[12px] h-[12px] w-[12px] bg-[#f2f2f2] rounded-bl-lg"></span>
-                                    <span>{tabTitle}</span>
+                                    <span className="flex gap-[8px]">
+                                        {imageExt &&
+                                            <Image alt="" src={imageExt} width={17} ></Image>
+                                        }
+                                        {tabTitle}
+                                    </span>
                                 </span>
                             </span>
                         }
                     </div>
-                    <div className="p-[21px]">
-                        <code>
-                            <pre contentEditable className={`${font.className} whitespace-pre`} dangerouslySetInnerHTML={{ __html: htmlOutput }}></pre>
-                        </code>
+                    <div className="py-[25px] px-[21px]">
+                        <pre onInput={t => onChangeCode?.(t.currentTarget.innerText)} className={`${font.className} whitespace-pre line-numbers`}>
+                            <code dangerouslySetInnerHTML={{ __html: htmlOutput }}></code>
+                        </pre>
                     </div>
                 </div>
             </div>
