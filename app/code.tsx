@@ -6,7 +6,7 @@ import "prismjs/components/prism-http";
 import "prismjs/components/prism-json";
 import "prismjs/components/prism-json5";
 import "prismjs/components/prism-git";
-import { useMemo, use, FC, useId, useRef, useState } from "react";
+import { useMemo, FC, useRef, useState, CSSProperties } from "react";
 import "prismjs/themes/prism.css";
 import "prismjs/plugins/line-numbers/prism-line-numbers";
 import "prismjs/plugins/line-numbers/prism-line-numbers.css";
@@ -14,7 +14,6 @@ import { NextFont } from "@next/font/dist/types";
 import localFont from "@next/font/local";
 import * as htmlToImage from "html-to-image";
 import Image from "next/image";
-import demo from "../assets/demo-2.png";
 
 
 import ApolloGraphqlCompactSVG from "../assets/logos/apollo-graphql-compact.svg";
@@ -34,6 +33,7 @@ import SvgSVG from "../assets/logos/svg.svg";
 import SwiftSVG from "../assets/logos/swift.svg";
 import TailwindcssSVG from "../assets/logos/tailwindcss.svg";
 import TypescriptSVG from "../assets/logos/typescript.svg";
+import { inspect } from "util";
 
 
 const firaCodeBold = localFont({ src: "../fonts/Fira_Code_v6.2/woff2/FiraCode-Bold.woff2" });
@@ -109,8 +109,17 @@ const selectExtend = (pat: string): any => Object.entries(iconExtends).find(([ma
 const selectFont = (fontKey: string): NextFont => fontDict[fontKey] ?? firaCodeMedium
 const selectLanguage = (languageKey: string): Prism.Grammar => languageDict[languageKey] ?? Prism.languages.typescript
 
-export const Code: FC<{ fontKey?: string, tabTitle?: string, language?: string, code?: string, onChangeCode?: (code: string) => void }> = ({ tabTitle, code = `const a:string = "1234"`, fontKey = FontKeys.FiraCodeMedium, language = Language.typescript, onChangeCode }) => {
+interface Theme {
+    '--accent-bg': string
+    '--control-btn-1': string
+    '--control-btn-2': string
+    '--control-btn-3': string
+    '--shadown-style': string
+}
+
+export const Code: FC<{ shadownStyle?: string, fontKey?: string, tabTitle?: string, language?: string, code?: string, onChangeCode?: ((code: string) => void), useAccent?: boolean }> = ({ tabTitle, code = `const a:string = "1234"`, fontKey = FontKeys.FiraCodeMedium, language = Language.typescript, onChangeCode, useAccent = false, shadownStyle = "rgb(38, 57, 77) 0px 20px 30px -10px" }) => {
     const codeBlockRef = useRef<HTMLDivElement>();
+    const codeContentRef = useRef<HTMLDivElement>();
     const font = selectFont(fontKey);
     const [clicks, setClicks] = useState<number[]>([]);
     const htmlOutput = useMemo(() => Prism.highlight(code, selectLanguage(language), language), [code, language]);
@@ -129,29 +138,39 @@ export const Code: FC<{ fontKey?: string, tabTitle?: string, language?: string, 
         }
     }
 
+    const theme: Theme = {
+        "--shadown-style": shadownStyle,
+        "--accent-bg": useAccent ? '#f2f2f2' : 'white',
+        "--control-btn-1": '#ff5f57',
+        "--control-btn-2": '#febc2e',
+        "--control-btn-3": '#28c840',
+    };
+
+    const style = theme as CSSProperties;
+
     return <>
         <div className="p-4 flex items-center gap-2">
             <button onClick={span} className="px-4 py-2 border rounded">📸 Guardar</button>
             {clicks.map(e => <span key={e}>✅</span>)}
         </div>
-        <div className="p-4">
+        <div className="p-4" style={style}>
             <div ref={codeBlockRef} className="p-[35px] overflow-hidden inline-block bg-transparent">
-                <div className="bg-white border border-solid border-gray-200 rounded-lg text-[14px] inline-block overflow-hidden" style={{
-                    boxShadow: 'rgb(38, 57, 77) 0px 20px 30px -10px'
+                <div className="bg-white border-gray-200 rounded-lg text-[14px] inline-block overflow-hidden" style={{
+                    boxShadow: shadownStyle
                 }}>
-                    <div className="bg-[#f2f2f2] px-[16px] h-[45px] flex gap-[16px]">
+                    <div className="bg-[var(--accent-bg)] px-[16px] h-[45px] flex gap-[16px]">
                         <span className="flex gap-2 items-center">
-                            <span className="block w-[13px] h-[13px] rounded-full border-[2px] border-[#B5B5B5]"></span>
-                            <span className="block w-[13px] h-[13px] rounded-full border-[2px] border-[#B5B5B5]"></span>
-                            <span className="block w-[13px] h-[13px] rounded-full border-[2px] border-[#B5B5B5]"></span>
+                            <span className="block w-[13px] h-[13px] rounded-full bg-[var(--control-btn-1)]"></span>
+                            <span className="block w-[13px] h-[13px] rounded-full bg-[var(--control-btn-2)]"></span>
+                            <span className="block w-[13px] h-[13px] rounded-full bg-[var(--control-btn-3)]"></span>
                         </span>
                         {tabTitle &&
                             <span className="pt-1 rounded-t-lg flex">
                                 <span className="bg-white text-[#000000cc] px-[17px] flex items-center rounded-t-lg relative">
                                     <span className="absolute bottom-0 -left-[12px] h-[12px] w-[12px] bg-white shadown shadow-black"></span>
-                                    <span className="absolute bottom-0 -left-[12px] h-[12px] w-[12px] bg-[#f2f2f2] rounded-br-lg shadown shadow-black"></span>
+                                    <span className="absolute bottom-0 -left-[12px] h-[12px] w-[12px] bg-[var(--accent-bg)] rounded-br-lg shadown shadow-black"></span>
                                     <span className="absolute bottom-0 -right-[12px] h-[12px] w-[12px] bg-white"></span>
-                                    <span className="absolute bottom-0 -right-[12px] h-[12px] w-[12px] bg-[#f2f2f2] rounded-bl-lg"></span>
+                                    <span className="absolute bottom-0 -right-[12px] h-[12px] w-[12px] bg-[var(--accent-bg)] rounded-bl-lg"></span>
                                     <span className="flex gap-[8px]">
                                         {imageExt &&
                                             <Image alt="" src={imageExt} width={17} ></Image>
