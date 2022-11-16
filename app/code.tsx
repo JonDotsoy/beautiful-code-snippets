@@ -133,6 +133,7 @@ export const Code: FC<{ shadownStyle?: string, fontKey?: string, tabTitle?: stri
     const codeContentRef = useRef<HTMLDivElement>();
     const font = selectFont(fontKey);
     const [clicks, setClicks] = useState<number[]>([]);
+    const [logsCopied, setLogsCopied] = useState<NodeJS.Timeout[]>([]);
     const htmlOutput = useMemo(() => Prism.highlight(code, selectLanguage(language), language), [code, language]);
     const imageExt = useMemo(() => selectExtend(tabTitle), [tabTitle]);
 
@@ -146,6 +147,16 @@ export const Code: FC<{ shadownStyle?: string, fontKey?: string, tabTitle?: stri
             setTimeout(() => {
                 setClicks(e => e.filter(e => e !== t));
             }, 250);
+        }
+    }
+
+    const toclipboardCode = () => {
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(code);
+            const timeout = setTimeout(() => {
+                setLogsCopied(e => e.filter(a => a !== timeout));
+            }, 250);
+            setLogsCopied(e => [...e, timeout]);
         }
     }
 
@@ -191,6 +202,11 @@ export const Code: FC<{ shadownStyle?: string, fontKey?: string, tabTitle?: stri
                                 </span>
                             </span>
                         }
+                        <span className="flex-auto"></span>
+                        <span className="flex items-center relative">
+                            <button onClick={toclipboardCode} className="border px-2 py-1 rounded text-gray-700 opacity-0 hover:opacity-100 focus:opacity-100 transition-opacity">Copy</button>
+                            {logsCopied.map(e => <span key={`${e}`} className="absolute bg-white border border-gray-400 p-1 rounded">Copied</span>)}
+                        </span>
                     </div>
                     <div className="py-[25px] px-[21px]">
                         <span onInput={t => onChangeCode?.(t.currentTarget.innerText)} className={`${font.className} whitespace-pre line-numbers`}>
