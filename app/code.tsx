@@ -125,7 +125,7 @@ export const Code: FC<{ shadownStyle?: string, fontKey?: string, tabTitle?: stri
     const htmlOutput = useMemo(() => Prism.highlight(code, selectLanguage(language), language), [code, language]);
     const imageExt = useMemo(() => selectExtend(tabTitle), [tabTitle]);
 
-    const span = async () => {
+    const snap = async () => {
         if (codeBlockRef.current) {
             const blob = await htmlToImage.toBlob(codeBlockRef.current, { pixelRatio: 3 });
             await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
@@ -150,7 +150,7 @@ export const Code: FC<{ shadownStyle?: string, fontKey?: string, tabTitle?: stri
 
     return <>
         <div className="p-4 flex items-center gap-2">
-            <button onClick={span} className="px-4 py-2 border rounded">📸 Guardar</button>
+            <button onClick={snap} className="px-4 py-2 border rounded">📸 Guardar</button>
             {clicks.map(e => <span key={e}>✅</span>)}
         </div>
         <div className="p-4" style={style}>
