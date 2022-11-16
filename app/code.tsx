@@ -11,6 +11,9 @@ import "prismjs/themes/prism.css";
 import { NextFont } from "@next/font/dist/types";
 import localFont from "@next/font/local";
 import * as htmlToImage from "html-to-image";
+import Image from "next/image";
+import demo from "../assets/demo-2.png";
+
 
 const firaCodeBold = localFont({ src: "../fonts/Fira_Code_v6.2/woff2/FiraCode-Bold.woff2" });
 const firaCodeLight = localFont({ src: "../fonts/Fira_Code_v6.2/woff2/FiraCode-Light.woff2" });
@@ -86,22 +89,28 @@ export const Code: FC<{ fontKey?: string, tabTitle?: string, language?: string, 
         </div>
         <div className="p-4">
             <div ref={codeBlockRef} x-snap-me="true" className="p-[8px] overflow-hidden inline-block bg-transparent">
-                <div className="bg-white border shadow-md border-solid border-gray-200 rounded-lg text-[27px] inline-block">
-                    <div className="bg-[#F0F0F0] rounded-t-lg">
-                        <span aria-hidden className="flex justify-start items-center">
-                            <span className="flex gap-2 px-4 min-h-[50px] items-center">
-                                <span className="block w-[20px] h-[20px] rounded-full border-[2px] border-[#B5B5B5]"></span>
-                                <span className="block w-[20px] h-[20px] rounded-full border-[2px] border-[#B5B5B5]"></span>
-                                <span className="block w-[20px] h-[20px] rounded-full border-[2px] border-[#B5B5B5]"></span>
-                            </span>
-                            {tabTitle &&
-                                <span className="bg-white text-gray-500 px-10 min-h-[50px] flex items-center"><span>{tabTitle}</span></span>
-                            }
+                <div className="bg-white border shadow-md border-solid border-gray-200 rounded-lg text-[14px] inline-block overflow-hidden">
+                    <div className="bg-[#f2f2f2] px-[16px] h-[45px] flex gap-[16px]">
+                        <span className="flex gap-2 items-center">
+                            <span className="block w-[13px] h-[13px] rounded-full border-[2px] border-[#B5B5B5]"></span>
+                            <span className="block w-[13px] h-[13px] rounded-full border-[2px] border-[#B5B5B5]"></span>
+                            <span className="block w-[13px] h-[13px] rounded-full border-[2px] border-[#B5B5B5]"></span>
                         </span>
+                        {tabTitle &&
+                            <span className="pt-1 rounded-t-lg flex">
+                                <span className="bg-white text-[#000000cc] px-[17px] flex items-center rounded-t-lg relative">
+                                    <span className="absolute bottom-0 -left-[12px] h-[12px] w-[12px] bg-white shadown shadow-black"></span>
+                                    <span className="absolute bottom-0 -left-[12px] h-[12px] w-[12px] bg-[#f2f2f2] rounded-br-lg shadown shadow-black"></span>
+                                    <span className="absolute bottom-0 -right-[12px] h-[12px] w-[12px] bg-white"></span>
+                                    <span className="absolute bottom-0 -right-[12px] h-[12px] w-[12px] bg-[#f2f2f2] rounded-bl-lg"></span>
+                                    <span>{tabTitle}</span>
+                                </span>
+                            </span>
+                        }
                     </div>
-                    <div className="p-5">
+                    <div className="p-[21px]">
                         <code>
-                            <pre className={`${font.className} whitespace-pre`} dangerouslySetInnerHTML={{ __html: htmlOutput }}></pre>
+                            <pre contentEditable className={`${font.className} whitespace-pre`} dangerouslySetInnerHTML={{ __html: htmlOutput }}></pre>
                         </code>
                     </div>
                 </div>
@@ -127,6 +136,7 @@ export const Code: FC<{ fontKey?: string, tabTitle?: string, language?: string, 
                     </div>
                 </div>
             </div> */}
+            {/* <Image alt="Demo" src={demo} width={589}></Image> */}
         </div>
     </>
 }

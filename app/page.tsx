@@ -2,11 +2,23 @@
 import { useId, useState } from "react";
 import { Code, FontKeys, Language } from "./code";
 
+const defaultPayload = `import express, { Express, Request, Response } from 'express'
+const app: Express = express()
+const port = 3000
+
+app.get('/', (req: Request, res: Response) => {
+  res.send('Hello World!')
+})
+
+app.listen(port, () => {
+  console.log(\`Example app listening on port \${port}\`)
+})`
+
 export default function () {
     const [fontKey, setFontKey] = useState(FontKeys.FiraCodeLight);
     const [language, setLanguage] = useState(Language.typescript);
     const [tabTitle, setTabTitle] = useState("app.ts");
-    const [code, setCode] = useState<string | undefined>("export const PORT = 3000;\nrequire(\"express\")().lister(PORT);");
+    const [code, setCode] = useState<string | undefined>(defaultPayload);
     const id1 = useId()
     const id2 = useId()
     const id3 = useId()
