@@ -33,6 +33,7 @@ import SvgSVG from "../assets/logos/svg.svg";
 import SwiftSVG from "../assets/logos/swift.svg";
 import TailwindcssSVG from "../assets/logos/tailwindcss.svg";
 import TypescriptSVG from "../assets/logos/typescript.svg";
+import TerminalSVG from "../assets/logos/terminal-1.svg";
 import { inspect } from "util";
 
 
@@ -102,6 +103,10 @@ export const iconExtends: Record<string, any> = {
     '.swift': SwiftSVG,
     'tailwind.config.js': TailwindcssSVG,
     '.ts': TypescriptSVG,
+    '.sh': TerminalSVG,
+    '.bash': TerminalSVG,
+    '.zsh': TerminalSVG,
+    '.fish': TerminalSVG,
 }
 
 const selectExtend = (pat: string): any => Object.entries(iconExtends).find(([match]) => pat.endsWith(match))?.[1];
