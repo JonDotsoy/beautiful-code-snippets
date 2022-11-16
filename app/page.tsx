@@ -20,7 +20,7 @@ app.listen(port, () => {
 })`
 
 export default function () {
-    const [fontKey, setFontKey] = useState(FontKeys.FiraCodeLight);
+    const [fontKey, setFontKey] = useState(FontKeys.FiraCodeVF);
     const [language, setLanguage] = useState(Language.typescript);
     const [tabTitle, setTabTitle] = useState("app.ts");
     const [code, setCode] = useState<string | undefined>(defaultPayload);

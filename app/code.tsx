@@ -106,7 +106,7 @@ export const iconExtends: Record<string, any> = {
 
 const selectExtend = (pat: string): any => Object.entries(iconExtends).find(([match]) => pat.endsWith(match))?.[1];
 
-const selectFont = (fontKey: string): NextFont => fontDict[fontKey] ?? firaCodeMedium
+const selectFont = (fontKey: string): NextFont => fontDict[fontKey] ?? firaCodeLight
 const selectLanguage = (languageKey: string): Prism.Grammar => languageDict[languageKey] ?? Prism.languages.typescript
 
 interface Theme {
@@ -127,7 +127,7 @@ export const Code: FC<{ shadownStyle?: string, fontKey?: string, tabTitle?: stri
 
     const span = async () => {
         if (codeBlockRef.current) {
-            const blob = await htmlToImage.toBlob(codeBlockRef.current);
+            const blob = await htmlToImage.toBlob(codeBlockRef.current, { pixelRatio: 3 });
             await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
             console.log("ok");
             const t = Date.now();
@@ -182,9 +182,9 @@ export const Code: FC<{ shadownStyle?: string, fontKey?: string, tabTitle?: stri
                         }
                     </div>
                     <div className="py-[25px] px-[21px]">
-                        <pre onInput={t => onChangeCode?.(t.currentTarget.innerText)} className={`${font.className} whitespace-pre line-numbers`}>
-                            <code dangerouslySetInnerHTML={{ __html: htmlOutput }}></code>
-                        </pre>
+                        <span onInput={t => onChangeCode?.(t.currentTarget.innerText)} className={`${font.className} whitespace-pre line-numbers`}>
+                            <span className={`${font.className} whitespace-pre`} dangerouslySetInnerHTML={{ __html: htmlOutput }}></span>
+                        </span>
                     </div>
                 </div>
             </div>
