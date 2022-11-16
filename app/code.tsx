@@ -7,6 +7,7 @@ import "prismjs/components/prism-json";
 import "prismjs/components/prism-json5";
 import "prismjs/components/prism-git";
 import "prismjs/components/prism-bash";
+import "prismjs/components/prism-csv";
 import { useMemo, FC, useRef, useState, CSSProperties } from "react";
 import "prismjs/themes/prism.css";
 import "prismjs/plugins/line-numbers/prism-line-numbers";
@@ -63,6 +64,7 @@ const languageDict: Record<Language, Prism.Grammar> = {
     "json5": Prism.languages.json5,
     "git": Prism.languages.git,
     "bash": Prism.languages.bash,
+    "csv": Prism.languages.csv,
 }
 
 export enum FontKeys {
@@ -83,6 +85,7 @@ export enum Language {
     json5 = "json5",
     git = "git",
     bash = "bash",
+    csv = "csv",
 }
 
 export const iconExtends: Record<string, any> = {
