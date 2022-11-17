@@ -8,8 +8,17 @@ export default function RootLayout({
 }) {
   return (
     <html>
-      <head></head>
-      <body>{children}</body>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Beautiful Code Snippets</title>
+      </head>
+      <body>
+        {children}
+
+        <footer className="flex justify-center">
+          <p className="text-gray-500">View project on <a href="https://github.com/JonDotsoy/beautiful-code-snippets"><strong>GitHub</strong></a></p>
+        </footer>
+      </body>
     </html>
   );
 }
