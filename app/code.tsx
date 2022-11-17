@@ -119,8 +119,8 @@ export const Code: FC<{ shadownStyle?: string, fontKey?: string, tabTitle?: stri
 
     return <>
         <div className="p-4 flex items-center gap-2 justify-center">
-            <button onClick={snap} className="px-4 py-2 border rounded">{captured ? 'Copied on clipboard 🎉' : '📸 Guardar'}</button>
-            <button onClick={stateMenuTheme.toggle} className="px-4 py-2 border rounded">Theme</button>
+            <button onClick={snap} className="px-4 py-2 border rounded">{captured ? 'Copied on clipboard 🎉' : '📸 Clipboard'}</button>
+            <button onClick={stateMenuTheme.toggle} className="px-4 py-2 border rounded">💅 Theme</button>
         </div>
 
         <div className={classNames("overflow-x-hidden overflow-auto transition-all", stateMenuTheme.toggled ? 'h-fit scale-100' : 'h-0 scale-0')}>
