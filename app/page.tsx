@@ -1,10 +1,10 @@
 'use client';
 
-import { FC, useId, useState } from "react";
+import { FC, FormEvent, useId, useState } from "react";
 import { Code, inferLanguageByFilename, Language } from "./code";
 import GithubSVG from "../assets/logos/github-2.svg";
 import Image from "next/image";
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { FontKeys } from "./fonts";
 
 const shadowStyles = [
@@ -25,6 +25,7 @@ app.listen(port, () => {
 })`
 
 export default function () {
+    const router = useRouter();
     const searchParams = useSearchParams();
     const filenameQuery = searchParams.get("f") ?? searchParams.get("filename") ?? 'app.ts';
     const payloadQuery = searchParams.get("p") ?? searchParams.get("payload") ?? defaultPayload;
@@ -46,7 +47,21 @@ export default function () {
     const id5 = useId()
     const id6 = useId()
 
-    globalThis.g = searchParams;
+    const submit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        const formData = new FormData(event.currentTarget);
+
+        // console.log(Array.from(formData.entries()))
+
+        const searchParams = new URLSearchParams();
+
+        for (const [key, value] of formData.entries()) {
+            searchParams.set(key, value.toString());
+        }
+
+        router.push(`?${searchParams.toString()}`);
+    }
 
     return <>
         <Code fontKey={fontKey} tabTitle={tabTitle} language={language} code={code} onChangeCode={code => setCode(code)} useAccent={useAccent} shadownStyle={shadownStyle}></Code>
@@ -55,7 +70,7 @@ export default function () {
             <h2 className="text-center font-bold text-3xl pb-4">API</h2>
             {/* <p>Use the query params <code>payload</code> to change body</p> */}
 
-            <form className="border bg-white p-[17px] rounded-md shadow-md max-w-md mx-auto my-8 flex flex-col gap-4">
+            <form onSubmit={submit} className="border bg-white p-[17px] rounded-md shadow-md max-w-md mx-auto my-8 flex flex-col gap-4">
                 <FieldText name="filename" label="Filename" defaultValue={tabTitle}></FieldText>
                 <FieldText name="payload" label="Payload" defaultValue={code} multiline></FieldText>
                 <FieldCheckbox name="accent" label="Accent" defaultChecked={useAccent} />

@@ -122,9 +122,7 @@ const ToggleEditCode: FC<{ language: string, code: string, contentEditable?: boo
 
     useEffect(() => {
         if (codeRef.current) {
-            // prism.highlightElement(codeRef.current, true)
             prism.highlightAll();
-            console.log('render', codeRef.current);
         }
     }, [codeRef.current, code, language, onEdition, fresh.current])
 
