@@ -70,12 +70,14 @@ export default function () {
             <h2 className="text-center font-bold text-3xl pb-4">API</h2>
             {/* <p>Use the query params <code>payload</code> to change body</p> */}
 
-            <form method="GET" onSubmit={submit} className="border bg-white p-[17px] rounded-md shadow-md max-w-md mx-auto my-8 flex flex-col gap-4">
-                <FieldText name="filename" label="Filename" defaultValue={tabTitle}></FieldText>
-                <FieldText name="payload" label="Payload" defaultValue={code} multiline></FieldText>
-                <FieldCheckbox name="accent" label="Accent" defaultChecked={useAccent} />
-                <div className="px-[17px] justify-center flex">
-                    <button itemType="submit" className="border rounded-md px-4 py-2">Update</button>
+            <form method="GET" onSubmit={submit} className="max-w-md mx-auto">
+                <div className="border bg-white p-[17px] rounded-md shadow-md max-w-md my-8 flex flex-col gap-4 mx-4">
+                    <FieldText name="filename" label="Filename" defaultValue={tabTitle}></FieldText>
+                    <FieldText name="payload" label="Payload" defaultValue={code} multiline></FieldText>
+                    <FieldCheckbox name="accent" label="Accent" defaultChecked={useAccent} />
+                    <div className="px-[17px] justify-center flex">
+                        <button itemType="submit" className="border rounded-md px-4 py-2">Update</button>
+                    </div>
                 </div>
             </form>
         </section>
